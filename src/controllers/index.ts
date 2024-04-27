@@ -1,0 +1,1 @@
+export { FormularioController } from "./Formulario.controller";

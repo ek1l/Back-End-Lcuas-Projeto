@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Formulario {
+  id                 String  @id @default(uuid())
+  nome               String
+  dataNascimento     String
+  cpf                String
+  whatsappNumber     String
+  demaisNumeros      String?
+  email              String
+  cep                String
+  ruaAvenida         String
+  numero             String
+  bairro             String
+  cidade             String
+  estado             String
+  prontoReferencia   String?
+  assistenciaSaude   String?
+  assistenciaFuneral String?
+  dependentes        String?
+  mensalidade        String
+  valorAdesao        String
+  observacao         String?
+  comprovantePix     String?
+
+  foto Foto? @relation("FormularioToFoto")
+}
+
+model Foto {
+  id           String     @id @default(uuid())
+  formularioId String     @unique
+  formulario   Formulario @relation("FormularioToFoto", fields: [formularioId], references: [id])
+}
