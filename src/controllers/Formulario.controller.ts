@@ -6,16 +6,33 @@ export class FormularioController {
   formularioService = new FormularioService();
   public create = async (req: Request, res: Response) => {
     try {
-      const { filename }: any = req.file;
+      const comprovantePix = req.file ? req.file.filename : null;
       const formData = {
         ...req.body,
-        comprovantePix: filename,
+        comprovantePix,
       };
 
-      const response = await this.formularioService.create(formData);
+      const response = await this.formularioService.create(
+        formData,
+        comprovantePix,
+      );
       return res.status(201).json(response);
     } catch (error: string | any) {
       throw new AppError(String(error.message), 400);
     }
+  };
+
+  public getAll = async (req: Request, res: Response) => {
+    const response = await this.formularioService.getAll();
+    return res.status(200).json(response);
+  };
+  public getOne = async (req: Request, res: Response) => {
+    const response = await this.formularioService.getOne(res.locals.formulario);
+    return res.status(200).json(response);
+  };
+  public delete = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const response = await this.formularioService.delete(id);
+    return res.status(200).json(response);
   };
 }

@@ -19,7 +19,22 @@ CREATE TABLE "Formulario" (
     "dependentes" TEXT,
     "mensalidade" TEXT NOT NULL,
     "valorAdesao" TEXT NOT NULL,
-    "observacao" TEXT NOT NULL,
+    "observacao" TEXT,
+    "comprovantePix" TEXT,
 
     CONSTRAINT "Formulario_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateTable
+CREATE TABLE "Foto" (
+    "id" TEXT NOT NULL,
+    "formularioId" TEXT NOT NULL,
+
+    CONSTRAINT "Foto_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Foto_formularioId_key" ON "Foto"("formularioId");
+
+-- AddForeignKey
+ALTER TABLE "Foto" ADD CONSTRAINT "Foto_formularioId_fkey" FOREIGN KEY ("formularioId") REFERENCES "Formulario"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

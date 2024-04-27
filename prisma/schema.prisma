@@ -29,12 +29,11 @@ model Formulario {
   valorAdesao        String
   observacao         String?
   comprovantePix     String?
-
-  foto Foto? @relation("FormularioToFoto")
+  foto               Foto?   @relation("FormularioToFoto")
 }
 
 model Foto {
   id           String     @id @default(uuid())
   formularioId String     @unique
-  formulario   Formulario @relation("FormularioToFoto", fields: [formularioId], references: [id])
+  formulario   Formulario @relation("FormularioToFoto", fields: [formularioId], references: [id], onDelete: Cascade)
 }

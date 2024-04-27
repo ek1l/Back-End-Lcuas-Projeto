@@ -1,5 +1,8 @@
 import { Router } from 'express';
-import { ValidateSchemaBodyMiddleware } from '../middleware';
+import {
+  ValidateSchemaBodyMiddleware,
+  VerifyIDExistFormMiddleware,
+} from '../middleware';
 import { createFormSchema } from '../schemas';
 import { FormularioController } from '../controllers';
 import upload from '../middleware/multerFormData';
@@ -14,6 +17,12 @@ formRouter.post(
   formController.create,
 );
 
-formRouter.get('/');
-formRouter.get('/:id');
-formRouter.delete('/:id');
+formRouter.get('/', formController.getAll);
+
+formRouter.get('/:id', VerifyIDExistFormMiddleware.execute, formController.getOne);
+
+formRouter.delete(
+  '/:id',
+  VerifyIDExistFormMiddleware.execute,
+  formController.delete,
+);

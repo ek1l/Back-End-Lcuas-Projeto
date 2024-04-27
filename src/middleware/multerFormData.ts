@@ -2,13 +2,12 @@ import multer from 'multer';
 import fs from 'fs';
 import path from 'path';
 
-// Configuração para armazenamento no disco com criação de diretório
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const dir = 'uploads/';
-    // Se o diretório não existir, crie-o
+
     if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true }); // Cria diretório se não existir
+      fs.mkdirSync(dir, { recursive: true });
     }
     cb(null, dir);
   },
