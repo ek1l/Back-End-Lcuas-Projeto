@@ -8,6 +8,7 @@ export class FormularioService {
     comprovantePix?: string | null,
   ): Promise<FormData> => {
     const createForm = await prisma.formulario.create({ data });
+    
     if (comprovantePix) {
       const newComprovante = await prisma.foto.create({
         data: {

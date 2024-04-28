@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { FormularioService } from '../services/Formulario.service';
 import { AppError } from '../errors/appError';
+import { FormularioService } from '../services';
 
 export class FormularioController {
   formularioService = new FormularioService();
-  public create = async (req: Request, res: Response) => {
+  public create = async (req: Request, res: Response): Promise<Response> => {
     try {
       const comprovantePix = req.file ? req.file.filename : null;
       const formData = {
@@ -22,15 +22,15 @@ export class FormularioController {
     }
   };
 
-  public getAll = async (req: Request, res: Response) => {
+  public getAll = async (req: Request, res: Response): Promise<Response> => {
     const response = await this.formularioService.getAll();
     return res.status(200).json(response);
   };
-  public getOne = async (req: Request, res: Response) => {
+  public getOne = async (req: Request, res: Response): Promise<Response> => {
     const response = await this.formularioService.getOne(res.locals.formulario);
     return res.status(200).json(response);
   };
-  public delete = async (req: Request, res: Response) => {
+  public delete = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
     const response = await this.formularioService.delete(id);
     return res.status(200).json(response);

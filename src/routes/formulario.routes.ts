@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   ValidateSchemaBodyMiddleware,
+  VerifyHeaderAuthorizationMiddleware,
   VerifyIDExistFormMiddleware,
 } from '../middleware';
 import { createFormSchema } from '../schemas';
@@ -17,12 +18,22 @@ formRouter.post(
   formController.create,
 );
 
-formRouter.get('/', formController.getAll);
+formRouter.get(
+  '/',
+  VerifyHeaderAuthorizationMiddleware.execute,
+  formController.getAll,
+);
 
-formRouter.get('/:id', VerifyIDExistFormMiddleware.execute, formController.getOne);
+formRouter.get(
+  '/:id',
+  VerifyHeaderAuthorizationMiddleware.execute,
+  VerifyIDExistFormMiddleware.execute,
+  formController.getOne,
+);
 
 formRouter.delete(
   '/:id',
+  VerifyHeaderAuthorizationMiddleware.execute,
   VerifyIDExistFormMiddleware.execute,
   formController.delete,
 );
